@@ -1,0 +1,302 @@
+/*background element*/
+.okvir {
+    position: relative;
+    z-index: 0;
+    margin-top: 0%;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-bottom: 10%;
+    height: 100%;
+    width: 100%;
+  }
+  
+  /*uredjenje gornjeg dijela stranice (meni i logo)*/
+  .logo {
+    margin-top: 0%;
+    z-index: 1;
+    width: 65%;
+    text-align: center;
+   position: relative;
+  }
+  
+  .htmlslika {
+    top: 75px;
+    display: table-cell;
+     width:150px; 
+    height:150px;
+    margin: 0 auto;
+    position: relative; 
+  }
+  
+  .meni {
+        background: #74afdb;
+        height: 100pt;
+        width: 65%;
+        position: relative;
+        text-align: center;
+  }
+  
+  .meni  ul {
+    position: absolute;
+    bottom: 0;
+    list-style-type: none;
+    margin-bottom: 1%; 
+    margin-left: 3%;
+  }
+  
+  .meni  ul  li {
+        display: inline-block;
+        padding-right: 35px; 
+        font-size: 150%;
+  }
+
+  a {
+      color: black;
+  }
+  
+  /*uklanjam podvlaku kod linka*/
+  .bezPodvlake {
+    text-decoration: none;
+  }
+  
+  
+  /*uredjenje sadrzaja*/
+  .sadrzaj {
+  margin-top: 1%;
+  float: left;
+  width : 65%;
+  height: 700pt;
+  background: #74afdb;
+  }
+  
+  .sadrzaj  h2 {
+   margin-left: 1%;
+   margin-top: 5%;
+  }
+  
+  .sadrzaj  p {
+  margin-right: 2%;
+  margin-left: 1%;
+  }
+
+  
+  /* Dropdown */
+  #dropdown {
+    width: 80%;
+    margin: 0 auto;
+}
+
+ /*izravnanje input polja sa labelom*/
+ label, select,input {
+    display: inline-block;
+} 
+
+ label {
+    width: 30%;
+    text-align: right;
+}
+
+ label + select {
+    width: 30%;
+    margin: 3% 30% 0 4%;
+}
+
+label + input[type=checkbox] {
+    width: 7%;
+    margin: 2% 10% 0 2%;
+}
+
+label + input[type=time] {
+    width: 30%;
+    margin: 2% 20% 0 4%;
+}
+
+#odb {
+    margin-top: 4%;
+    margin-left:20%;
+    font-weight: bold;
+    font-size: 22pt;
+    text-align: right;
+}
+
+.kalendar {
+    margin-top: 5%;
+    height:325pt; 
+   width: 100%;
+   display: block;
+   position: relative;
+}
+
+#month {
+    font-family: Consolas;
+    font-size: 20pt;
+    font-weight: bold;
+}
+
+/*uredjenje tabele*/
+table {
+    margin-right: 15%;
+    margin-left: 15%;
+     width: 70%;
+    background: lightgrey;
+    border: 3px solid black;
+    border-spacing: 10px;
+}
+
+th {
+    border: 3px solid blue;
+    background: lightskyblue;
+    width: 50px;
+}
+
+table td {
+   width: 50px;
+}
+
+/*uredjenje unutrasnje tabele*/
+.unutrasnja {
+    margin-left: -1%;
+    height: 50px; 
+    width: 100%;
+    border-collapse: collapse;
+    border: 3px solid darkblue;
+}
+
+.unutrasnja  td , tr {
+   border: 3px solid darkblue;
+}
+
+.unutrasnja tr {
+    text-align: center;
+}
+
+.unutrasnja tr .slobodna{
+    height: 12px;
+  background: green;
+ }
+
+.unutrasnja tr .zauzeta{
+    height: 12px;
+    background: red;
+ }
+  
+ /*postavka buttona*/
+ #btnSection {
+     margin-top: 3%;
+    margin-left:7.5%;
+   width: 72%;
+   text-align: center;
+    margin-right: 20%;
+   
+  } 
+
+  .inner {
+      display: inline-block;
+      margin-left: 0%;
+      width: 0%;
+     
+  }
+
+  .inner #rbtn {
+      margin-left: 65%;
+  }
+
+  #spacer {
+      margin-left: 14%;
+      width: 64%;
+  }
+  
+  #nxt {
+	  margin-left: 40pt;
+  }
+
+  .btnCal {
+      width: 100px;
+      height: 40px;
+      border: groove blue 2px;
+      background: rgb(253, 241, 169);
+      font-family: Consolas;
+      color: blue;
+      font-weight: bold;
+      font-size: 12pt;
+  }
+
+  @media screen and (max-width:700px) {
+         #datumi {
+            margin-left: 4%;
+         }
+  } 
+  
+
+  @media screen and (max-width:600px) {
+
+    #datumi {
+        margin-left: 25%;
+    }
+    
+    /*transponovanje redova i kolona*/
+     table .red > *{
+        display: block;
+    }
+
+    table .red {
+        display: table-cell;
+    }
+
+    table .red th {
+       border-spacing: 0px;
+    }
+  
+    #datumi {
+        width: 100pt;
+    }
+     
+    /*dodatno sredjivanje stila tabele*/
+    #datumi  .red:nth-child(3), .red:nth-child(3) td, 
+    .red:nth-child(n+5), .red:nth-child(n+5) td  {
+           display: none;
+           border:0;
+         }
+
+         #datumi .red:nth-child(2)  {
+            border:0;
+            column-gap: 20px;
+         }
+
+         #datumi .red:nth-child(2) th  {
+            padding: 20px 0 0px 0;
+            height: 24px;
+            margin-top: 4%;
+         }
+         
+         /*postavka da buttoni budu uredno rasporedjeni*/
+         #btnSection {
+            margin-top: 5%;
+            margin-left:1%;
+            width: 55%;
+            text-align: center;
+            margin-right: 30%;
+            }
+          
+          /*skaliranje labela*/
+          label {
+              transform: scale(0.75);
+          }
+          #odb {
+              transform: scale(0.5);
+          }
+
+        /*uredjenje meni liste*/
+        .meni  ul {
+            position: absolute;
+            bottom: 0;
+            list-style-type: none;
+            text-align: center;
+        }
+        
+        .meni  ul  li {
+            display: list-item; 
+                font-size: 70%;
+        }
+}
+

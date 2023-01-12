@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<HTML>
+
+<HEAD>
+        <TITLE>Classroom Reservation</TITLE>
+        <link rel="stylesheet" type="text/css" href="../css/rezervacija.css">
+        <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</HEAD>
+
+<BODY>
+        <div class="okvir">
+                <div class="logo"> <img class="htmlslika" src="../img/html-logo.png" alt="slika-logo"></div>
+                <div class="meni">
+                       <ul>
+                                <li><a href="/pocetna.html">Main page</a></li>
+                                <li><a href="/sale.html" >Classrooms</a></li>
+                                <li><a href="/unos.html">Add classroom</a></li>
+                                <li><a href="#" class="bezPodvlake">Reservation</a></li>
+                                <li><a href="/osobe.html">Employees</a></li>
+                        </ul>
+                </div>
+                <div class="sadrzaj">
+                  <label id="odb">Classroom selection</label>
+				 
+                          <div id= "dropdown">
+                           <form id="odabir"  oninput="Kalendar.ucitajPodatkeIzForme()">
+						   <!--oninput="Kalendar.ucitajPodatkeIzForme()"-->
+							    <label>Classroom: </label>
+                             <select id="saleSelect"> 
+                            </select>
+							<label>Periodic reservation: </label> <input type="checkbox" name="chbox" id="periodicnost"><br>
+                            <label>Start: </label> <input type="time" name="početak"  id="pocetak" ><br>
+                            <label>End: </label> <input type="time" name="kraj"  id="kraj"><br> 
+							 <label>Choose employee: </label><select id="osobljeSelect" placeholder="Odabir osoblja"> </select>
+							</form>
+                          </div>
+                            <div class="kalendar">
+                                <table id="datumi">
+                                      <tr><td colspan="5" id="month">Novembar</td></tr>
+                                        <tr class="red">
+                                          <th>MON</th>
+                                          <th>TUE</th>
+                                          <th>WED</th>
+                                          <th>THU</th>
+                                          <th>FRI</th>
+                                          <th>SAT</th>
+                                          <th>SUN</th>
+                                        </tr>
+                                        <tr class="red">
+                                          <td></td>
+                                          <td></td>
+                                          <td></td>
+                                          <td></td>
+                                          <td><table class="unutrasnja"><tr><td>1</td></tr><tr><td class="slobodna"></td></tr></table></td>
+                                          <td><table class="unutrasnja"><tr><td>2</td></tr><tr><td class="slobodna"></td></tr></table></td>
+                                          <td><table class="unutrasnja"><tr><td>3</td></tr><tr><td class="slobodna"></td></tr></table></td>
+                                        </tr>
+                                        <tr class="red" id="showRow">
+                                          <td><table class="unutrasnja"><tr><td>4</td></tr><tr><td class="slobodna"></td></tr></table></td>
+                                          <td><table class="unutrasnja"><tr><td>5</td></tr><tr><td class="slobodna"></td></tr></table></td>
+                                          <td><table class="unutrasnja"><tr><td>6</td></tr><tr><td class="slobodna"></td></tr></table></td>
+                                          <td><table class="unutrasnja"><tr><td>7</td></tr><tr><td class="slobodna"></td></tr></table></td>
+                                          <td><table class="unutrasnja"><tr><td>8</td></tr><tr><td class="slobodna"></td></tr></table></td>
+                                          <td><table class="unutrasnja"><tr><td>9</td></tr><tr><td class="slobodna"></td></tr></table></td>
+                                          <td><table class="unutrasnja"><tr><td>10</td></tr><tr><td class="slobodna"></td></tr></table></td>
+                                        </tr>
+                                        <tr class="red">
+                                            <td><table class="unutrasnja"><tr><td>11</td></tr><tr><td class="slobodna"></td></tr></table></td>
+                                            <td><table class="unutrasnja"><tr><td>12</td></tr><tr><td class="slobodna"></td></tr></table></td>
+                                            <td><table class="unutrasnja"><tr><td>13</td></tr><tr><td class="slobodna"></td></tr></table></td>
+                                            <td><table class="unutrasnja"><tr><td>14</td></tr><tr><td class="slobodna"></td></tr></table></td>
+                                            <td><table class="unutrasnja"><tr><td>15</td></tr><tr><td class="slobodna"></td></tr></table></td>
+                                            <td><table class="unutrasnja"><tr><td>16</td></tr><tr><td class="slobodna"></td></tr></table></td>
+                                            <td><table class="unutrasnja"><tr><td>17</td></tr><tr><td class="slobodna"></td></tr></table></td>
+                                        </tr>
+                                        <tr class="red">
+                                            <td><table class="unutrasnja"><tr><td>18</td></tr><tr><td class="slobodna"></td></tr></table></td>
+                                            <td><table class="unutrasnja"><tr><td>19</td></tr><tr><td class="slobodna"></td></tr></table></td>
+                                            <td><table class="unutrasnja"><tr><td>20</td></tr><tr><td class="slobodna"></td></tr></table></td>
+                                            <td><table class="unutrasnja"><tr><td>21</td></tr><tr><td class="slobodna"></td></tr></table></td>
+                                            <td><table class="unutrasnja"><tr><td>22</td></tr><tr><td class="slobodna"></td></tr></table></td>
+                                            <td><table class="unutrasnja"><tr><td>23</td></tr><tr><td class="slobodna"></td></tr></table></td>
+                                            <td><table class="unutrasnja"><tr><td>24</td></tr><tr><td class="slobodna"></td></tr></table></td>
+                                        </tr>
+                                        <tr class="red">
+                                            <td><table class="unutrasnja"><tr><td>25</td></tr><tr><td class="slobodna"></td></tr></table></td>
+                                            <td><table class="unutrasnja"><tr><td>26</td></tr><tr><td class="slobodna"></td></tr></table></td>
+                                            <td><table class="unutrasnja"><tr><td>27</td></tr><tr><td class="slobodna"></td></tr></table></td>
+                                            <td><table class="unutrasnja"><tr><td>28</td></tr><tr><td class="slobodna"></td></tr></table></td>
+                                            <td><table class="unutrasnja"><tr><td>29</td></tr><tr><td class="slobodna"></td></tr></table></td>
+                                            <td><table class="unutrasnja"><tr><td>30</td></tr><tr><td class="slobodna"></td></tr></table></td>
+											<td></td>
+                                        </tr>
+                                      </table>
+                                    </div>
+                                    <div id="btnSection">
+                                      <div class="inner" ><button type="button" class="btnCal" id="prev" onclick="Kalendar.callPrev()" >Previous</button></div>
+                                      <div class="inner" id="spacer"></div>
+                                      <div class="inner" id="rbtn"><button type="button" class="btnCal" id="nxt" onclick="Kalendar.callNext()" >Next</button></div> 
+                                    </div>
+                   </div>
+        </div>
+		<SCRIPT src="../js/globalneVarijable.js"></SCRIPT>
+		<SCRIPT src="../js/kalendar.js"></SCRIPT>	
+		<SCRIPT src="../js/rezervacija.js"></SCRIPT>
+		<SCRIPT src="../js/pozivi.js"></SCRIPT>
+		
+	
+</BODY>
+
+</HTML>
