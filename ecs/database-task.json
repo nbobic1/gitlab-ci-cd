@@ -1,0 +1,38 @@
+{
+  "executionRoleArn": "arn:aws:iam::877144756195:role/ecs_task_execution_role",
+  "containerDefinitions": [
+    {
+      "portMappings": [
+        {
+          "hostPort": 3306,
+          "protocol": "tcp",
+          "containerPort": 3306
+        }
+      ],
+      "cpu": 256,
+      "environment": [
+        {
+          "name": "MYSQL_DATABASE",
+          "value": "DBWT19"
+        },
+        {
+          "name": "MYSQL_ROOT_PASSWORD",
+          "value": "root"
+        }
+      ],
+      "memory": 512,
+      "image": "mysql",
+      "healthCheck": {
+        "retries": 10,
+        "command": [
+          "mysqladmin ping -h localhost"
+        ],
+        "timeout": 20,
+        "interval": 30,
+        "startPeriod": null
+      },
+      "name": "database"
+    }
+  ],
+  "family": "database-task"
+}
