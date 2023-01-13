@@ -1,1 +1,20 @@
+# Don't check auto-generated stuff into git
+coverage
+build
 node_modules
+stats.json
+.pnp
+.pnp.js
+
+# misc
+.DS_Store
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+conf/reference.conf
+target
+logs
+node_modules/
+test-variables-config.sh
+.vscode/launch.json
+.idea
