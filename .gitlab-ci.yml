@@ -11,7 +11,7 @@ stages:
     - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
 
 .build_docker_script: &build_docker_script
-  <<: **docker
+  <<: *docker
   script:
     - echo "Building image..."
     - docker build -t $REPOSITORY_URL:$CI_COMMIT_SHORT_SHA .
@@ -27,6 +27,6 @@ build_frontend:
   variables:
     REPOSITORY_URL: kibrovic/frontend-task
   script:
-  <<: **build_docker_script
+  <<: *build_docker_script
   rules:
     - if: $ENVIRONMENT_NAME == "development"
