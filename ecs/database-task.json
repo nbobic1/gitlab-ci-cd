@@ -17,7 +17,7 @@
         },
         {
           "name": "MYSQL_ROOT_PASSWORD",
-          "value": "root"
+          "value": "${MYSQL_ROOT_PASSWORD}"
         }
       ],
       "memory": 512,
@@ -28,10 +28,15 @@
           "mysqladmin ping -h localhost"
         ],
         "timeout": 20,
-        "interval": 30,
-        "startPeriod": null
+        "interval": 30
       },
       "name": "database"
+    }
+  ],
+  "placementConstraints": [
+    {
+      "type": "memberOf",
+      "expression": "attribute:ecs.subnet-id in [subnet-07a9cc3ebb4d181d3]"
     }
   ],
   "family": "database-task"

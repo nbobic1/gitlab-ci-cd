@@ -20,5 +20,11 @@
       "name": "frontend-task"
     }
   ],
+  "placementConstraints": [
+    {
+      "type": "memberOf",
+      "expression": "attribute:ecs.subnet-id in [subnet-003bbf6e003a5404c]"
+    }
+  ],
   "family": "frontend-task"
 }
