@@ -1,0 +1,32 @@
+stages:
+  - build
+  - deploy
+
+.docker: &docker
+  image: docker:20.10-git
+  services:
+    - docker:20.10-dind
+  before_script:
+    - echo "Docker login..."
+    - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+
+.build_docker_script: &build_docker_script
+  <<: **docker
+  script:
+    - echo "Building image..."
+    - docker build -t $REPOSITORY_URL:$CI_COMMIT_SHORT_SHA .
+    - echo "Tagging image..."
+    - docker tag $REPOSITORY_URL:$CI_COMMIT_SHORT_SHA $REPOSITORY_URL:latest
+  after_script:
+    - echo "Pushing image..."
+    - docker push $REPOSITORY_URL:$CI_COMMIT_SHORT_SHA
+    - docker push $REPOSITORY_URL:latest
+
+build_frontend:
+  stage: build
+  variables:
+    REPOSITORY_URL: kibrovic/frontend-task
+  script:
+  <<: **build_docker_script
+  rules:
+    - if: $ENVIRONMENT_NAME == "development"
