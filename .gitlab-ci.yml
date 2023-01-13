@@ -54,7 +54,7 @@ deploy_frontend:
   rules:
     - if: $ENVIRONMENT_NAME == "development"
 
-deploy_databse:
+deploy_database:
   <<: *deploy_ecs_script
   stage: deploy
   variables:
