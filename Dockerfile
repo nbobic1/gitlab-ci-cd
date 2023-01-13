@@ -1,8 +1,12 @@
-FROM node:19
+FROM node:19-alpine
 
-WORKDIR /app
-ADD . .
+EXPOSE 8080
 
-RUN npm install
+#WORKDIR /app
+ADD . /app
 
+#RUN npm install ./js
 
+WORKDIR /app/js
+
+ENTRYPOINT ["node", "index.js"]
