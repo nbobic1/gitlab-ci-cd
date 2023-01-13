@@ -1,7 +1,14 @@
 const Sequelize = require("sequelize");
 
+// const sequelize = new Sequelize("DBWT19", "root", "root", {
+//    host: "localhost", // mysql-db
+//    dialect: "mysql",
+//    port:"3306",
+//    logging: false
+// });
+
 const sequelize = new Sequelize("DBWT19", "root", "root", {
-   host: "localhost", // mysql-db
+   host: `${process.env.MYSQL_DB}`, // mysql-db
    dialect: "mysql",
    port:"3306",
    logging: false
