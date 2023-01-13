@@ -22,11 +22,48 @@ stages:
     - docker push $REPOSITORY_URL:$CI_COMMIT_SHORT_SHA
     - docker push $REPOSITORY_URL:latest
 
+.deploy_ecs_script: &deploy_ecs_script
+  image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-ecs:latest
+  before_script:
+    - apt-get update -y && apt-get install -y gettext
+  script:
+    - envsubst < ecs/$TASK_DEFINITION_FILE > $TASK_DEFINITION_FILE
+    - echo "Registering new task definition..."
+    - aws ecs register-task-definition --region "${AWS_DEFAULT_REGION}" --cli-input-json file://$TASK_DEFINITION_FILE
+    - echo "Updating the service..."
+    - aws ecs update-service --force-new-deployment --region "${AWS_DEFAULT_REGION}" --cluster "${CI_AWS_ECS_CLUSTER}" --service "${CI_AWS_SERVICE}"  --task-definition "${CI_AWS_TASK_DEFINITION}"
+
+
 build_frontend:
+  <<: *build_docker_script
   stage: build
   variables:
     REPOSITORY_URL: kibrovic/frontend-task
-  script:
-  <<: *build_docker_script
+  rules:
+    - if: $ENVIRONMENT_NAME == "development"
+
+deploy_frontend:
+  <<: *deploy_ecs_script
+  stage: deploy
+  variables:
+    TASK_DEFINITION_FILE: frontend.json
+    REPOSITORY_URL: kibrovic/frontend-task
+    CI_AWS_ECS_CLUSTER: arm_ecs_cluster
+    CI_AWS_SERVICE: frontend-service
+    CI_AWS_TASK_DEFINITION: frontend-task 
+    MYSQL_DB: ip-192-168-1-5.eu-central-1.compute.internal
+  rules:
+    - if: $ENVIRONMENT_NAME == "development"
+
+deploy_databse:
+  <<: *deploy_ecs_script
+  stage: deploy
+  variables:
+    TASK_DEFINITION_FILE: database.json
+    REPOSITORY_URL: mysql
+    CI_AWS_ECS_CLUSTER: arm_ecs_cluster
+    CI_AWS_SERVICE: database-service
+    CI_AWS_TASK_DEFINITION: databse-task
+    MYSQL_DATABSE: DBWT19
   rules:
     - if: $ENVIRONMENT_NAME == "development"
