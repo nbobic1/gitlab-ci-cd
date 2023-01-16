@@ -1,5 +1,4 @@
 {
-  "executionRoleArn": "arn:aws:iam::877144756195:role/ecs_task_execution_role",
   "containerDefinitions": [
     {
       "portMappings": [
@@ -36,7 +35,7 @@
   "placementConstraints": [
     {
       "type": "memberOf",
-      "expression": "attribute:ecs.subnet-id in [subnet-07a9cc3ebb4d181d3]"
+      "expression": "attribute:ecs.subnet-id in [${PUBLIC_SUBNET_ID}]"
     }
   ],
   "family": "database-task"

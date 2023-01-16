@@ -26,6 +26,8 @@ stages:
   image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-ecs:latest
   before_script:
     - apt-get update -y && apt-get install -y gettext
+    - PRIVATE_SUBNET_ID="$(aws ec2 describe-subnets --filters "Name=tag:Name,Values=Private" --query "Subnets[*].SubnetId" --output text)"
+    - PUBLIC_SUBNET_ID="$(aws ec2 describe-subnets --filters "Name=tag:Name,Values=Public" --query "Subnets[*].SubnetId" --output text)"
   script:
     - envsubst < ecs/$CI_AWS_ECS_TASK_DEFINITION_FILE > $CI_AWS_ECS_TASK_DEFINITION_FILE
     - echo "Registering new task definition..."
