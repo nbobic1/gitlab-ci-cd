@@ -30,7 +30,7 @@ stages:
     - echo "Registering new task definition..."
     - aws ecs register-task-definition --region "${AWS_DEFAULT_REGION}" --cli-input-json file://$CI_AWS_ECS_TASK_DEFINITION_FILE
     - echo "Updating the service..."
-    - aws ecs update-service --force-new-deployment --region "${AWS_DEFAULT_REGION}" --cluster "${CI_AWS_ECS_CLUSTER}" --service "${CI_AWS_SERVICE}"  --task-definition "${CI_AWS_TASK_DEFINITION}"
+    - aws ecs update-service --force-new-deployment --region "${AWS_DEFAULT_REGION}" --cluster "${CI_AWS_ECS_CLUSTER}" --service "${CI_AWS_SERVICE}"  --task-definition "${CI_AWS_TASK_DEFINITION}" --desired-replicas 1
 
 
 build_frontend:
