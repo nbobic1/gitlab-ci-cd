@@ -45,6 +45,7 @@ deploy_frontend:
   before_script:
     - export PUBLIC_SUBNET_ID="$(aws ec2 describe-subnets --filters "Name=tag:Name,Values=Public" --query "Subnets[*].SubnetId" --output text)"
     - export MYSQL_DB="$(aws ec2 describe-instances --filters "Name=tag:Name,Values=PrivateServer" --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text)"
+    - export CI_AWS_TASK_EXECUTION_ROLE="$(aws iam get-role --role-name ${CI_AWS_TASK_EXECUTION_ROLE_NAME} --query Role.Arn --output text)"
   <<: *deploy_ecs_script
   stage: deploy
   variables:
@@ -53,6 +54,7 @@ deploy_frontend:
     CI_AWS_SERVICE: frontend-service
     CI_AWS_ECS_TASK_DEFINITION_FILE: frontend-task.json
     CI_AWS_TASK_DEFINITION: frontend-task
+    CI_AWS_TASK_EXECUTION_ROLE_NAME: ecs_task_execution_role
   rules:
     - if: $ENVIRONMENT_NAME == "development"
 
@@ -60,6 +62,7 @@ deploy_database:
   <<: *deploy_ecs_script
   before_script:
     - export PRIVATE_SUBNET_ID="$(aws ec2 describe-subnets --filters "Name=tag:Name,Values=Private" --query "Subnets[*].SubnetId" --output text)"
+    - export CI_AWS_TASK_EXECUTION_ROLE="$(aws iam get-role --role-name ${CI_AWS_TASK_EXECUTION_ROLE_NAME} --query Role.Arn --output text)"
     - echo "Scaling down database service..."
     - aws ecs update-service --region "${AWS_DEFAULT_REGION}" --cluster "${CI_AWS_ECS_CLUSTER}" --service "${CI_AWS_SERVICE}" --desired-count 0
   stage: deploy
@@ -69,6 +72,7 @@ deploy_database:
     CI_AWS_SERVICE: database-service
     CI_AWS_ECS_TASK_DEFINITION_FILE: database-task.json
     CI_AWS_TASK_DEFINITION: database-task
+    CI_AWS_TASK_EXECUTION_ROLE_NAME: ecs_task_execution_role
     MYSQL_DATABSE: DBWT19
   rules:
     - if: $ENVIRONMENT_NAME == "development"

@@ -40,5 +40,7 @@
       "expression": "attribute:ecs.subnet-id in [${PRIVATE_SUBNET_ID}]"
     }
   ],
-  "family": "database-task"
+  "family": "database-task",
+  "taskRoleArn": "${CI_AWS_TASK_EXECUTION_ROLE}",
+  "executionRoleArn": "${CI_AWS_TASK_EXECUTION_ROLE}"
 }

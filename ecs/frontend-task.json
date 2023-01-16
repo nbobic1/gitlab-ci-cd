@@ -26,5 +26,7 @@
       "expression": "attribute:ecs.subnet-id in [${PUBLIC_SUBNET_ID}]"
     }
   ],
-  "family": "frontend-task"
+  "family": "frontend-task",
+  "taskRoleArn": "${CI_AWS_TASK_EXECUTION_ROLE}",
+  "executionRoleArn": "${CI_AWS_TASK_EXECUTION_ROLE}"
 }
