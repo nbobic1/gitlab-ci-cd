@@ -24,7 +24,8 @@
       "healthCheck": {
         "retries": 10,
         "command": [
-          "mysqladmin ping -h localhost"
+          "CMD",
+          "mysqladmin ping -h localhost --password=${MYSQL_ROOT_PASSWORD}"
         ],
         "timeout": 20,
         "interval": 30
@@ -35,7 +36,7 @@
   "placementConstraints": [
     {
       "type": "memberOf",
-      "expression": "attribute:ecs.subnet-id in [$PRIVATE_SUBNET_ID]"
+      "expression": "attribute:ecs.subnet-id in [${PRIVATE_SUBNET_ID}]"
     }
   ],
   "family": "database-task"
