@@ -35,7 +35,7 @@
   "placementConstraints": [
     {
       "type": "memberOf",
-      "expression": "attribute:ecs.subnet-id in [${PUBLIC_SUBNET_ID}]"
+      "expression": "attribute:ecs.subnet-id in [$PRIVATE_SUBNET_ID]"
     }
   ],
   "family": "database-task"
