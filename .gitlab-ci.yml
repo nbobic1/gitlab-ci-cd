@@ -52,6 +52,7 @@ deploy_frontend:
     CI_AWS_ECS_CLUSTER: arm_ecs_cluster
     CI_AWS_SERVICE: frontend-service
     CI_AWS_ECS_TASK_DEFINITION_FILE: frontend-task.json
+    CI_AWS_TASK_DEFINITION: frontend-task
     MYSQL_DB: ip-192-168-1-5.eu-central-1.compute.internal
   rules:
     - if: $ENVIRONMENT_NAME == "development"
@@ -64,6 +65,7 @@ deploy_database:
     CI_AWS_ECS_CLUSTER: arm_ecs_cluster
     CI_AWS_SERVICE: database-service
     CI_AWS_ECS_TASK_DEFINITION_FILE: database-task.json
+    CI_AWS_TASK_DEFINITION: database-task
     MYSQL_DATABSE: DBWT19
   rules:
     - if: $ENVIRONMENT_NAME == "development"

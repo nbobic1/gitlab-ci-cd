@@ -24,11 +24,12 @@
       "healthCheck": {
         "retries": 10,
         "command": [
-          "CMD",
+          "CMD-SHELL",
           "mysqladmin ping -h localhost --password=${MYSQL_ROOT_PASSWORD}"
         ],
-        "timeout": 20,
-        "interval": 30
+        "timeout": 10,
+        "interval": 30,
+        "startPeriod": 5
       },
       "name": "database"
     }
