@@ -54,7 +54,7 @@ This is a "fork" of [Classroom reservation website](https://github.com/Lino2007/
     * Configure CPU/Memory limits
     * Use [placement constraint](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html) to deploy task to EC2 instance in private subnet
         * NOTE: At the moment, new ECS console doesn't show placement constraint option and it needs to be configured using JSON config
-    * Use `ecs_task_execution_role` for Task role and Task execution role
+    * Use `LabRole` for Task role and Task execution role
 1. Frontend task definition:
     * Use Node.js app docker image build and published in previous step
     * Map containers port to port host's port `80`
@@ -64,7 +64,7 @@ This is a "fork" of [Classroom reservation website](https://github.com/Lino2007/
     * Configure CPU/Memory limits
     * Use [placement constraint](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html) to deploy task to EC2 instance in public subnet
         * NOTE: At the moment, new ECS console doesn't show placement constraint option and it needs to be configured using JSON config
-    * Use `ecs_task_execution_role` for Task role and Task execution role
+    * Use `LabRole` for Task role and Task execution role
 
 ### GitLab CI/CD
 

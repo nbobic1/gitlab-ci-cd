@@ -54,7 +54,7 @@ deploy_frontend:
     CI_AWS_SERVICE: frontend-service
     CI_AWS_ECS_TASK_DEFINITION_FILE: frontend-task.json
     CI_AWS_TASK_DEFINITION: frontend-task
-    CI_AWS_TASK_EXECUTION_ROLE_NAME: ecs_task_execution_role
+    CI_AWS_TASK_EXECUTION_ROLE_NAME: LabRole
   rules:
     - if: $ENVIRONMENT_NAME == "development"
 
@@ -72,7 +72,7 @@ deploy_database:
     CI_AWS_SERVICE: database-service
     CI_AWS_ECS_TASK_DEFINITION_FILE: database-task.json
     CI_AWS_TASK_DEFINITION: database-task
-    CI_AWS_TASK_EXECUTION_ROLE_NAME: ecs_task_execution_role
+    CI_AWS_TASK_EXECUTION_ROLE_NAME: LabRole
     MYSQL_DATABSE: DBWT19
   rules:
     - if: $ENVIRONMENT_NAME == "development"
