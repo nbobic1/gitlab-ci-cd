@@ -24,12 +24,8 @@ stages:
 
 .deploy_ecs_script: &deploy_ecs_script
   image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-ecs:latest
-  before_script:
-    - apt-get update -y && apt-get install -y gettext
-    - export PRIVATE_SUBNET_ID="$(aws ec2 describe-subnets --filters "Name=tag:Name,Values=Private" --query "Subnets[*].SubnetId" --output text)"
-    - export PUBLIC_SUBNET_ID="$(aws ec2 describe-subnets --filters "Name=tag:Name,Values=Public" --query "Subnets[*].SubnetId" --output text)"
-    - export MYSQL_DB="$(aws ec2 describe-instances --filters "Name=tag:Name,Values=PrivateServer" --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text)"
   script:
+    - apt-get update -y && apt-get install -y gettext
     - envsubst < ecs/$CI_AWS_ECS_TASK_DEFINITION_FILE > $CI_AWS_ECS_TASK_DEFINITION_FILE
     - echo "Registering new task definition..."
     - aws ecs register-task-definition --region "${AWS_DEFAULT_REGION}" --cli-input-json file://$CI_AWS_ECS_TASK_DEFINITION_FILE
@@ -46,6 +42,9 @@ build_frontend:
     - if: $ENVIRONMENT_NAME == "development" && $BUILD == "true"
 
 deploy_frontend:
+  before_script:
+    - export PUBLIC_SUBNET_ID="$(aws ec2 describe-subnets --filters "Name=tag:Name,Values=Public" --query "Subnets[*].SubnetId" --output text)"
+    - export MYSQL_DB="$(aws ec2 describe-instances --filters "Name=tag:Name,Values=PrivateServer" --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text)"
   <<: *deploy_ecs_script
   stage: deploy
   variables:
@@ -60,6 +59,7 @@ deploy_frontend:
 deploy_database:
   <<: *deploy_ecs_script
   before_script:
+    - export PRIVATE_SUBNET_ID="$(aws ec2 describe-subnets --filters "Name=tag:Name,Values=Private" --query "Subnets[*].SubnetId" --output text)"
     - echo "Scaling down database service..."
     - aws ecs update-service --region "${AWS_DEFAULT_REGION}" --cluster "${CI_AWS_ECS_CLUSTER}" --service "${CI_AWS_SERVICE}" --desired-count 0
   stage: deploy
