@@ -8,7 +8,7 @@ This is a "fork" of [Classroom reservation website](https://github.com/Lino2007/
 * Repository with [Classroom reservation website](https://github.com/Lino2007/classroom-reservation-website) code
 * GitLab runners configured:
     1. Use GitLab shared runners (Note: it may require user to enter valid credit card for validation to [prevent crypto mining](https://about.gitlab.com/blog/2021/05/17/prevent-crypto-mining-abuse/))
-    1. Configure runner on local machin. Follow instructions on Settings -> CI/CD -> Runners
+    1. Configure runner on local machine. Follow instructions on Settings -> CI/CD -> Runners
 * Completed [terraform-task](https://gitlab.com/kibrovic/terraform-task/-/tree/main)
 * ECS cluster `arm_ecs_cluster` along with task definitions and service definitions should already be created using Terraform
 
@@ -119,3 +119,23 @@ GitLab CI/CD allows 400 minutes/month using shared runners. Local runners don't 
     * ECS [update-service](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/ecs/update-service.html)
 * Don't Repeat Yourself (DRY)! Consider using YAML anchors, includes, extends and !reference to reuse configurations:
     * [YAML optimization](https://docs.gitlab.com/ee/ci/yaml/yaml_optimization.html)
+
+## Teacher Guide
+
+1. Explain GitLab CI/CD:
+    * CI/CD idea, concept, use cases, examples
+    * Software release lifecycle, branching strategy (e.g. git flow)
+    * What is pipeline, stage, job
+    * Basic pipeline example 
+    * Explain variables and secrets in GitLab (protect, mask secrets)
+    * Explain triggers (e.g. how it fits CI/CD process)
+1. Environment variables:
+    * What are env vars
+    * What's their purpose and when to use (e.g. database username, password, host)
+    * Use cases
+1. ECS:
+    * Reminder about cluster, task definition and service (should be already explained in [terraform-task](https://gitlab.com/kibrovic/terraform-task/-/tree/main#teacher-guide))
+    * Help students create manual task definitions (note the placement constraint change in new console)
+    * Help students create task definition template and replace environment variables with actual values (this can be done on local devices)
+    * Explain issues with database deployment
+1. Rest of task should be a homework
