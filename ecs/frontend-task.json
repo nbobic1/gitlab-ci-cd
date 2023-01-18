@@ -11,8 +11,16 @@
       "cpu": 256,
       "environment": [
         {
-          "name": "MYSQL_DB",
+          "name": "MYSQL_DB_HOST",
           "value": "${MYSQL_DB}"
+        },
+        {
+          "name": "MYSQL_USER",
+          "value": "${MYSQL_USER}"
+        },
+        {
+          "name": "MYSQL_PASSWORD",
+          "value": "${MYSQL_PASSWORD}"
         }
       ],
       "memory": 512,

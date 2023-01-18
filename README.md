@@ -15,17 +15,24 @@ This is a "fork" of [Classroom reservation website](https://github.com/Lino2007/
 # Task
 
 1. Use Terraform to provision ECS cluster `arm_ecs_cluster`
-1. Modify `js/db.js` to use environment variable `MYSQL_DB` as database host:
+1. Modify `js/db.js` to use environment variables:
+    * `MYSQL_USER` as database username
+    * `MYSQL_PASSWORD` as database password
+    * `MYSQL_DB_HOST` as database host
 1. Create Dockerfile for Node.js app
 1. Create ECS task definition JSON template for Node.js app in `ecs/frontend-task.json`:
     * Template can be found at [AWS ECS documentation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/create-task-definition-classic.html#task-definition-template) or generated using: `aws ecs register-task-definition --generate-cli-skeleton`
     * JSON template can also be copied from AWS console after manually creating task
-    * Set container environment variable `MYSQL_DB_HOST` to use CI/CD environment variable `MYSQL_DB_HOST`
+    * Set container environment variables:
+        * `MYSQL_USER` to use CI/CD environment variable `MYSQL_USER`
+        * `MYSQL_PASSWORD` to use CI/CD environment variable `MYSQL_PASSWORD`
+        * `MYSQL_DB_HOST` to use CI/CD environment variable `MYSQL_DB_HOST`
     * Node.js app should be deployed on EC2 instance with Public subnet (check [ECS tasks placement constraints](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html))
         * Use environment variable `PUBLIC_SUBNET_ID` for placement constraint
 1. Create ECS task definition JSON template for MySQL database in `ecs/database-task.json`:
-    * Set environment variables `MYSQL_DATABASE` and `MYSQL_ROOT_PASSWORD`
-    * `MYSQL_ROOT_PASSWORD` should use GitLab CI/CD secret
+    * Set environment variables `MYSQL_DATABASE`, `MYSQL_USER`, `MYSQL_PASSWORD` and `MYSQL_ROOT_PASSWORD`:
+        * Set `MYSQL_DATABASE` to `DBWT19`
+        * `MYSQL_USER`, `MYSQL_PASSWORD` and `MYSQL_ROOT_PASSWORD` should use GitLab CI/CD secrets
     * Database should be deployed on EC2 instance with Private subnet (check [ECS tasks placement constraints](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html))
         * Use environment variable `PRIVATE_SUBNET_ID` for placement constraint
 1. Create GitLab CI/CD pipeline which will:
@@ -38,20 +45,24 @@ This is a "fork" of [Classroom reservation website](https://github.com/Lino2007/
 
 1. Manually create `frontend-service` and `database-service` using AWS console:
     * Follow steps from [AWS documentation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/getting-started-ecs-ec2.html)
-1. Frontend task definition:
-    * Use Node.js app docker image build and published in previous step
-    * Map containers port to port host's port `80`
-    * Set environment variable `MYSQL_DB_HOST` to Private EC2 instance's private IP address
-    * Configure CPU/Memory limits
-    * Use [placement constraint](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html) to deploy task to EC2 instance in public subnet
-        * NOTE: At the moment, new ECS console doesn't show placement constraint option and it needs to be configured using JSON config
-    * Use `ecs_task_execution_role` for Task role and Task execution role
 1. Database task definition:
     * Use [MySql](https://hub.docker.com/_/mysql) docker image
     * Map container port `3306` to host port `3306`
-    * Set environment variables for MYSQL_ROOT_PASSWORD and MYSQL_DATABASE
+    * Set environment variables: 
+        * `MYSQL_DATABASE`: `DBWT19`
+        * Set values for `MYSQL_USER`, `MYSQL_PASSWORD` and `MYSQL_ROOT_PASSWORD`
     * Configure CPU/Memory limits
     * Use [placement constraint](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html) to deploy task to EC2 instance in private subnet
+        * NOTE: At the moment, new ECS console doesn't show placement constraint option and it needs to be configured using JSON config
+    * Use `ecs_task_execution_role` for Task role and Task execution role
+1. Frontend task definition:
+    * Use Node.js app docker image build and published in previous step
+    * Map containers port to port host's port `80`
+    * Set environment variables:
+        * `MYSQL_DB_HOST` is Private EC2 instance's private IP address
+        * Set values for `MYSQL_USER` and `MYSQL_PASSWORD`
+    * Configure CPU/Memory limits
+    * Use [placement constraint](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html) to deploy task to EC2 instance in public subnet
         * NOTE: At the moment, new ECS console doesn't show placement constraint option and it needs to be configured using JSON config
     * Use `ecs_task_execution_role` for Task role and Task execution role
 
@@ -65,6 +76,8 @@ This is a "fork" of [Classroom reservation website](https://github.com/Lino2007/
         * `taskRoleArn` and `taskRoleArn` with `${CI_AWS_TASK_EXECUTION_ROLE}`
         * Placement constraints subnet value with `${PUBLIC_SUBNET_ID}` for frontend task and `${PRIVATE_SUBNET_ID}` for database task
         * [FRONTEND] `MYSQL_DB_HOST` value with `${MYSQL_DB_HOST}` environment variable
+        * [FRONTEND & DATABASE] `MYSQL_USER` value with `${MYSQL_USER}` environment variable
+        * [FRONTEND & DATABASE] `MYSQL_PASSWORD` value with `${MYSQL_PASSWORD}` environment variable
         * [DATABASE] `MYSQL_DATABASE` value with `${MYSQL_DATABASE}` environment variable
         * [DATABASE] `MYSQL_ROOT_PASSWORD` value with `${MYSQL_ROOT_PASSWORD}` environment variable
 1. Add GitLab secrets in Settings -> CI/CD -> Variables
@@ -72,7 +85,9 @@ This is a "fork" of [Classroom reservation website](https://github.com/Lino2007/
     * AWS_DEFAULT_REGION
     * AWS_SECRET_ACCESS_KEY
     * DOCKER_PASSWORD for private docker hub repository access
-    * DOCKER_USER for private docker hub repository access 
+    * DOCKER_USER for private docker hub repository access
+    * MYSQL_USER for database user
+    * MYSQL_PASSWORD for database user `${MYSQL_USER}` password
     * MYSQL_ROOT_PASSWORD for database configuration
 1. Create `.gitlab-ci.yml` for CI/CD pipeline configuration:
     * Define two stages: `build` and `deploy`
@@ -82,7 +97,7 @@ This is a "fork" of [Classroom reservation website](https://github.com/Lino2007/
         * Log in to docker hub using credentials `DOCKER_USER` and `DOCKER_PASSWORD`
         * Build Node.js app dockerfile
         * Publish image to docker hub
-    * Deploy stage should have two jobs `deploy_frontend` and `deploy_backend` with steps which:
+    * Deploy stage should have two jobs `deploy_frontend` and `deploy_database` with steps which:
         * Substitute environment variables in `ecs/*json` templates with actual values
         * Register new task definition using generated json file
         * Update ECS service with latest task definition

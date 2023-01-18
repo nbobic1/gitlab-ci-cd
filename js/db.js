@@ -1,14 +1,8 @@
 const Sequelize = require("sequelize");
 
-// const sequelize = new Sequelize("DBWT19", "root", "root", {
-//    host: "localhost", // mysql-db
-//    dialect: "mysql",
-//    port:"3306",
-//    logging: false
-// });
-
-const sequelize = new Sequelize("DBWT19", "root", "root", {
-   host: `${process.env.MYSQL_DB}`, // mysql-db
+const sequelize = new Sequelize(
+   "DBWT19", `${process.env.MYSQL_USER}`, `${process.env.MYSQL_PASSWORD}`, {
+   host: `${process.env.MYSQL_DB_HOST}`, // mysql-db
    dialect: "mysql",
    port:"3306",
    logging: false
