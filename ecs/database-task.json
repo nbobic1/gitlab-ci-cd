@@ -27,7 +27,7 @@
           "value": "${MYSQL_ROOT_PASSWORD}"
         }
       ],
-      "memory": 128,
+      "memory": 56,
       "image": "mysql",
       "healthCheck": {
         "retries": 10,
