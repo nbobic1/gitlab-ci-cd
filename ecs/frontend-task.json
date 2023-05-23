@@ -12,7 +12,7 @@
       "environment": [
         {
           "name": "MYSQL_DB_HOST",
-          "value": "${MYSQL_DB}"
+          "value": "${MYSQL_DB_HOST}"
         },
         {
           "name": "MYSQL_USER",
