@@ -42,7 +42,11 @@ build_frontend:
 deploy_frontend:
   before_script:
     - export PUBLIC_SUBNET_ID="$(aws ec2 describe-subnets --filters "Name=tag:Name,Values=Public-armz18854" --query "Subnets[*].SubnetId" --output text)"
+    - echo "subnest it za public"
+    - echo $PUBLIC_SUBNET_ID
     - export MYSQL_DB_HOST="$(aws ec2 describe-instances --filters "Name=tag:Name,Values=PrivateServer-armz18854" --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text)"
+    - echo "serveri privatni"
+    - echo MYSQL_DB_HOST
     - export CI_AWS_TASK_EXECUTION_ROLE="$(aws iam get-role --role-name ${CI_AWS_TASK_EXECUTION_ROLE_NAME} --query Role.Arn --output text)"
   <<: *deploy_ecs_script
   stage: deploy
@@ -58,6 +62,8 @@ deploy_database:
   <<: *deploy_ecs_script
   before_script:
     - export PRIVATE_SUBNET_ID="$(aws ec2 describe-subnets --filters "Name=tag:Name,Values=Private-armz18854" --query "Subnets[*].SubnetId" --output text)"
+    - echo "priavtni subne"
+    - echo $PRIVATE_SUBNET_ID
     - export CI_AWS_TASK_EXECUTION_ROLE="$(aws iam get-role --role-name ${CI_AWS_TASK_EXECUTION_ROLE_NAME} --query Role.Arn --output text)"
     - echo "Scaling down database service..."
     - aws ecs update-service --region "${AWS_DEFAULT_REGION}" --cluster "${CI_AWS_ECS_CLUSTER}" --service "${CI_AWS_SERVICE}" --desired-count 1
