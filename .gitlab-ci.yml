@@ -30,7 +30,7 @@ stages:
     - echo "Registering new task definition..."
     - aws ecs register-task-definition --region "${AWS_DEFAULT_REGION}" --cli-input-json file://$CI_AWS_ECS_TASK_DEFINITION_FILE
     - echo "Updating the service..."
-    - aws ecs update-service --force-new-deployment --region "${AWS_DEFAULT_REGION}" --cluster "${CI_AWS_ECS_CLUSTER}" --service "${CI_AWS_SERVICE}"  --task-definition "${CI_AWS_TASK_DEFINITION}" --desired-replicas 1
+    - aws ecs update-service --force-new-deployment --region "${AWS_DEFAULT_REGION}" --cluster "${CI_AWS_ECS_CLUSTER}" --service "${CI_AWS_SERVICE}"  --task-definition "${CI_AWS_TASK_DEFINITION}" --desired-count 1
 
 
 build_frontend:
@@ -38,8 +38,6 @@ build_frontend:
   stage: build
   variables:
     REPOSITORY_URL: nbobic1/frontend-task
-  rules:
-    - if: $ENVIRONMENT_NAME == "development" && $BUILD == "true"
 
 deploy_frontend:
   before_script:
@@ -55,8 +53,6 @@ deploy_frontend:
     CI_AWS_ECS_TASK_DEFINITION_FILE: frontend-task.json
     CI_AWS_TASK_DEFINITION: frontend-task
     CI_AWS_TASK_EXECUTION_ROLE_NAME: LabRole
-  rules:
-    - if: $ENVIRONMENT_NAME == "development"
 
 deploy_database:
   <<: *deploy_ecs_script
@@ -74,5 +70,3 @@ deploy_database:
     CI_AWS_TASK_DEFINITION: database-task
     CI_AWS_TASK_EXECUTION_ROLE_NAME: LabRole
     MYSQL_DATABSE: DBWT19
-  rules:
-    - if: $ENVIRONMENT_NAME == "development"
